@@ -29,7 +29,7 @@ def instances_with_nights_watch(region_name):
 
 			 		if tag['Key'] == NIGHTS_WATCH_TAG_NAME:
 			 			value = tag['Value']
-			 			if value == "":
+			 			if value == "all":
 			 				value=DEFAULT_METRICS
 			 			NightsWatchTypes = map(lambda x: x.strip()[:3], value.split(','))
 			 			instance['NightsWatchTypes'] = NightsWatchTypes
