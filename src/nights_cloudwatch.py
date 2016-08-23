@@ -106,8 +106,8 @@ def print_alarms(region_name):
 		for alarm in page['MetricAlarms']:
 			pprint(alarm)
 
-def comma_space_to_array(str):
-	return map(lambda x: x.strip(), AWS_REGIONS.split(","))
+def comma_space_to_array(input_string):
+	return map(lambda x: x.strip(), input_string.split(","))
 
 def setup_stdout_logger():
 	log = logging.getLogger(__name__)
