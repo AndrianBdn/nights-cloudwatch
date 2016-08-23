@@ -136,7 +136,7 @@ def main():
 
 	regions_sns = region_sns_dict(comma_space_to_array(NIGHTS_WATCH_SNS_LIST))
 
-	for region, sns_arn in regions.items():
+	for region, sns_arn in regions_sns.items():
 		sync_watch_region(logger, region, sns_arn);
 
 
