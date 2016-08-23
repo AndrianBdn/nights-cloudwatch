@@ -81,7 +81,7 @@ class AlarmGenerator:
 
 	def disk_warning(self):
 		return AlarmObject(dict(
-			AlarmName=self.alarm_name('disk_90full'),
+			AlarmName=self.alarm_name('disk_90_full'),
 			AlarmDescription='Disk is 90% full ',
 			ActionsEnabled=True,
 			AlarmActions=[ self.sns_arn ],
@@ -90,7 +90,7 @@ class AlarmGenerator:
 			Statistic='Minimum',
 			Dimensions=[
 				{'Name': 'InstanceId','Value': self.instance['InstanceId']},
-				{'Name': 'FileSystem', 'Value': '/dev/xvda1'},
+				{'Name': 'Filesystem', 'Value': '/dev/xvda1'},
 				{'Name': 'MountPath', 'Value': '/'}
 			],
 			Period=900,
@@ -102,7 +102,7 @@ class AlarmGenerator:
 	def mem_warning(self):
 		# Warning, doubtful threshold
 		return AlarmObject(dict(
-			AlarmName=self.alarm_name('mem_90full'),
+			AlarmName=self.alarm_name('mem_90_full'),
 			AlarmDescription='Memory is 90% full ',
 			ActionsEnabled=True,
 			AlarmActions=[ self.sns_arn ],
