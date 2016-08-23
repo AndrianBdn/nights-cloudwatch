@@ -124,7 +124,7 @@ def region_sns_dict(sns_list):
 		arn_pcs = sns_arn.split(":")
 		arn_head = ":".join(arn_pcs[:3])
 		if arn_head == 'arn:aws:sns':
-			region_sns[arn_pcs[4]] = sns_arn
+			region_sns[arn_pcs[3]] = sns_arn
 	return region_sns
 
 def main():
