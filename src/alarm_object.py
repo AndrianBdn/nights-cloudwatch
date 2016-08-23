@@ -17,6 +17,3 @@ class AlarmObject(object):
 	def __hash__(self):
 		return hash(self.compare_string)
 
-
-	def __repr__(self):
-		return "Alarm: %s" % (self.name)

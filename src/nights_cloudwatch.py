@@ -50,13 +50,13 @@ def night_watch_alarms(region_name):
 
 	return alarms
 
-def sync_watch_region(logger, region_name):
+def sync_watch_region(logger, region_name, sns_arn):
 	logger.info("starting alarm sync of %s", region_name)
 	instances = instances_with_nights_watch(region_name)
 	new_alarms = []
 
 	for instance in instances:
-		alarmer = AlarmGenerator(region_name, NIGHTS_WATCH_SNS, instance)
+		alarmer = AlarmGenerator(region_name, sns_arn, instance)
 
 		for nw_type in instance['NightsWatchTypes']:
 			alarm = alarmer.alarm_with_short_name(nw_type)
@@ -118,16 +118,26 @@ def setup_stdout_logger():
 	log.setLevel(logging.INFO)
 	return log 
 
+def region_sns_dict(sns_list):
+	region_sns = dict()
+	for sns_arn in sns_list:
+		arn_pcs = sns_arn.split(":")
+		arn_head = ":".join(arn_pcs[:3])
+		if arn_head == 'arn:aws:sns':
+			region_sns[arn_pcs[4]] = sns_arn
+	return region_sns
+
 def main():
 	logger = setup_stdout_logger()
 
-	if NIGHTS_WATCH_SNS is None:
-		print("No NIGHTS_WATCH_SNS set in consts.py or env variables")
+	if NIGHTS_WATCH_SNS_LIST is None:
+		print("No NIGHTS_WATCH_SNS_LIST set in consts.py or env variables")
 		sys.exit(1)
 
-	regions = comma_space_to_array(AWS_REGIONS)
-	for region in regions:
-		sync_watch_region(logger, region);
+	regions_sns = region_sns_dict(comma_space_to_array(NIGHTS_WATCH_SNS_LIST))
+
+	for region, sns_arn in regions.items():
+		sync_watch_region(logger, region, sns_arn);
 
 
 if __name__ == "__main__":
