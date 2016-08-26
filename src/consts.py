@@ -8,6 +8,3 @@ DEFAULT_METRICS = os.getenv('DEFAULT_METRICS', 'sys,ins,cpu,dsk')
 
 NIGHTS_WATCH_SNS_LIST = os.getenv('NIGHTS_WATCH_SNS_LIST') 
 
-REFRESH_INTERVAL_SEC = os.getenv('REFRESH_INTERVAL_SEC', 0)
-
-
