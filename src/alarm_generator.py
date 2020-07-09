@@ -94,7 +94,7 @@ class AlarmGenerator:
 			Statistic='Minimum',
 			Dimensions=[
 				{'Name': 'InstanceId','Value': self.instance['InstanceId']},
-				{'Name': 'Filesystem', 'Value': '/dev/xvda1'},
+				{'Name': 'Filesystem', 'Value': '/dev/nvme0n1p1'},
 				{'Name': 'MountPath', 'Value': '/'}
 			],
 			Period=900,
