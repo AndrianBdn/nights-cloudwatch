@@ -27,8 +27,8 @@ class AlarmGenerator:
 
 	def cpu(self):
 		return AlarmObject(dict(
-			AlarmName=self.alarm_name('cpu_97_25m'),
-			AlarmDescription='CPU > 97% for 25 minutes',
+			AlarmName=self.alarm_name('cpu_' + CPU_ALARM_THRESHOLD + '_' + CPU_ALARM_PERIOD + 'sec'),
+			AlarmDescription='CPU >' + CPU_ALARM_THRESHOLD + 'for ' + CPU_ALARM_PERIOD + ' sec',
 			ActionsEnabled=True,
 			AlarmActions=[ self.sns_arn ],
 			OKActions=[ self.sns_arn ],
@@ -36,9 +36,9 @@ class AlarmGenerator:
 			Namespace='AWS/EC2',
 			Statistic='Average',
 			Dimensions=[{'Name': 'InstanceId','Value': self.instance['InstanceId']},],
-			Period=300,
+			Period=int(CPU_ALARM_PERIOD),
 			EvaluationPeriods=5,
-			Threshold=97.0,
+			Threshold=float(CPU_ALARM_THRESHOLD),
 			ComparisonOperator='GreaterThanOrEqualToThreshold'
 		));
 
@@ -84,8 +84,8 @@ class AlarmGenerator:
 
 	def disk_warning(self):
 		return AlarmObject(dict(
-			AlarmName=self.alarm_name('disk_90_full'),
-			AlarmDescription='Disk is 90% full ',
+			AlarmName=self.alarm_name('disk_' + DISK_FULL_ALARM_THRESHOLD + '_full'),
+			AlarmDescription='Disk is ' + DISK_FULL_ALARM_THRESHOLD + ' full ',
 			ActionsEnabled=True,
 			AlarmActions=[ self.sns_arn ],
 			OKActions=[ self.sns_arn ],
@@ -97,17 +97,17 @@ class AlarmGenerator:
 				{'Name': 'Filesystem', 'Value': '/dev/nvme0n1p1'},
 				{'Name': 'MountPath', 'Value': '/'}
 			],
-			Period=900,
+			Period=int(DISK_FULL_ALARM_PERIOD),
 			EvaluationPeriods=2,
-			Threshold=90.0,
+			Threshold=float(DISK_FULL_ALARM_THRESHOLD),
 			ComparisonOperator='GreaterThanOrEqualToThreshold'
 		));
 
 	def mem_warning(self):
 		# Warning, doubtful threshold
 		return AlarmObject(dict(
-			AlarmName=self.alarm_name('mem_90_full'),
-			AlarmDescription='Memory is 90% full ',
+			AlarmName=self.alarm_name('mem_' + MEM_ALARM_THRESHOLD + '_full'),
+			AlarmDescription='Memory is ' + MEM_ALARM_THRESHOLD + ' full ',
 			ActionsEnabled=True,
 			AlarmActions=[ self.sns_arn ],
 			OKActions=[ self.sns_arn ],
@@ -117,8 +117,8 @@ class AlarmGenerator:
 			Dimensions=[
 				{'Name': 'InstanceId','Value': self.instance['InstanceId']},
 			],
-			Period=900,
+			Period=int(MEM_ALARM_PERIOD),
 			EvaluationPeriods=2,
-			Threshold=90.0,
+			Threshold=float(MEM_ALARM_THRESHOLD),
 			ComparisonOperator='GreaterThanOrEqualToThreshold'
 		));
